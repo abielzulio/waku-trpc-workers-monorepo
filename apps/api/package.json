@@ -6,6 +6,9 @@
     "start": "ts-node --esm ./main.ts"
   },
   "devDependencies": {
+    "@elysiajs/trpc": "^1.0.2",
+    "@elysiajs/websocket": "^0.2.8",
+    "@trpc/server": "^10.45.2",
     "@types/node": "^18.16.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"

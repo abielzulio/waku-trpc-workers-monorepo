@@ -1,9 +1,13 @@
 {
   "name": "wtwm",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev",
+    "dev": "turbo dev --parallel --no-cache --force",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },

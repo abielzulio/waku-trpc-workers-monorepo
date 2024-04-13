@@ -1,17 +1,19 @@
-import Image from "next/image";
-import { Card } from "@repo/ui/card";
-import { Code } from "@repo/ui/code";
-import styles from "./page.module.css";
-import { Button } from "@repo/ui/button";
+import Image from "next/image"
+import { Card } from "@repo/ui/card"
+import { Code } from "@repo/ui/code"
+import styles from "./page.module.css"
+import { Button } from "@repo/ui/button"
+import { createTRPCProxyClient, httpBatchLink } from "@trpc/client"
+import { AppRouter } from "api"
 
 function Gradient({
   conic,
   className,
   small,
 }: {
-  small?: boolean;
-  conic?: boolean;
-  className?: string;
+  small?: boolean
+  conic?: boolean
+  className?: string
 }): JSX.Element {
   return (
     <span
@@ -24,7 +26,7 @@ function Gradient({
         .filter(Boolean)
         .join(" ")}
     />
-  );
+  )
 }
 
 const LINKS = [
@@ -49,14 +51,25 @@ const LINKS = [
     description:
       "Instantly deploy your Turborepo to a shareable URL with Vercel.",
   },
-];
+]
 
-export default function Page(): JSX.Element {
+const client = createTRPCProxyClient<AppRouter>({
+  links: [
+    httpBatchLink({
+      /* url: `${process.env.NODE_ENV !== "development" ? "https://api.zulio.workers.dev" : "http://localhost:8787"}/trpc`, */
+      url: `https://api.zulio.workers.dev/trpc`,
+    }),
+  ],
+})
+
+export default async function Page(): Promise<JSX.Element> {
+  const hi = await client.hello.query("citra")
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
         <p>
-          examples/basic&nbsp;
+          {hi}
           <Code className={styles.code}>web</Code>
         </p>
         <div>
@@ -140,5 +153,5 @@ export default function Page(): JSX.Element {
         ))}
       </div>
     </main>
-  );
+  )
 }
